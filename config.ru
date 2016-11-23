@@ -1,6 +1,10 @@
 require 'rack'
 require 'rack/contrib/try_static'
 
+use Rack::Auth::Basic, "Restricted Access" do |user, password|
+  [ user, password ] == [ ENV['AUTH_NAME'], ENV['AUTH_PASSWORD'] ]
+end
+
 use Rack::TryStatic,
     root: 'build',
     urls: %w[/],
